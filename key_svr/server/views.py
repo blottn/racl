@@ -32,8 +32,14 @@ def authorised(uid, groupid):
     return groupid in groups.keys() and uid in groups[groupid]["members"]
 
 def example_key(request):
+    
     pub = open('./trimmed')
-    key = ''
+    priv = open('./trimmed.pub')
+
+    pub_key = ''
+    priv_key = ''
     for line in pub:
-        key += line
-    return HttpResponse(key)
+        pub_key += line
+    for line in priv:
+        priv_key += line
+    return HttpResponse('{\"pub_key\":\"' + pub_key + '\", \"priv_key\":\"' + priv_key + '\"}')
