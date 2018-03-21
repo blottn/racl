@@ -8,6 +8,10 @@ function getEncrypted(txt) {
 	return txt.substring(0,txt.length - tag.length);
 }
 
+function encrypt(txt) {
+	
+}
+
 document.onload = new function() {
 	var dom_list = document.getElementsByTagName("P");
 	var list = []
