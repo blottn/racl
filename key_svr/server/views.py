@@ -17,6 +17,19 @@ def get_pubk(request):
     else:
         return HttpResponse(E_MSG)
 
+def add_user(request):
+	gid = request.GET['gid']
+	uid = request.GET['uid']
+	if gid == '' or uid == '':
+		return HttpResponse(E_MSG)
 
-def authorised(uid, groupid):
-    return uid in groups.keys() and uid in groups[groupid]["members"]
+	authorise(uid,gid)
+	return HttpResponse('added ' + str(uid) + ' to ' + str(gid))
+
+def authorise(uid,gid):
+	if (not authorised(uid,gid)) and gid in keys.keys():
+		keys[gid]['members'].append(uid)
+
+
+def authorised(uid, gid):
+    return gid in keys.keys() and uid in keys[gid]['members']
