@@ -27,7 +27,6 @@ function decrypt(txt,key) {
 }*/
 
 document.onload = new function() {
-	test();
 	var dom_list = document.getElementsByTagName("P");
 	var list = []
 	for (var i = 0 ; i < dom_list.length ; i++) {
