@@ -15,18 +15,9 @@ function encrypt(txt,key) {
 function decrypt(txt,key) {
 	return cryptico.decryptAESCBC(txt,key);
 }
-/*function test() {
-	txt = "hello world!";
-	console.log("this is a message");
-	var aes_key = cryptico.generateAESKey();
-	console.log(aes_key);
-	var encrypted = cryptico.encryptAESCBC(txt,aes_key);
-	console.log(encrypted);
-	var decrypted = cryptico.decryptAESCBC(encrypted,aes_key);
-	console.log(decrypted);
-}*/
 
-document.onload = new function() {
+function init(key) {
+	var uid = console.log(key['uid_k']);
 	var dom_list = document.getElementsByTagName("P");
 	var list = []
 	for (var i = 0 ; i < dom_list.length ; i++) {
@@ -36,5 +27,8 @@ document.onload = new function() {
 			list.push(getEncrypted(txt));	//cant write further without writing the encryption side first
 		}
 	}
+}
 
+document.onload = new function() {
+	chrome.storage.sync.get(['uid_k'],init);
 }
