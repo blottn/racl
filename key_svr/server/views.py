@@ -8,9 +8,11 @@ import sys, os
 
 keys = {}
 
+users = {}
+
 E_MSG = 'na'
 
-
+# create group
 def create(request):
 	if not 'gid' in request.GET.keys():
 		return HttpResponse('gid required')
@@ -26,6 +28,8 @@ def create(request):
 	keys[gid] = {'admin':uid, 'u_keys':[]}
 	return HttpResponse('registered ' + str(gid))
 
+
+# authorise key to group
 def add_k(request):
 	if not 'gid' in request.GET.keys():
 		return HttpResponse('gid required')
@@ -47,7 +51,7 @@ def add_k(request):
 
 	return HttpResponse('added ' + str(key) + ' to ' + str(gid))
 
-def register(request):
+def register(request):	# might be necessary to add some authentication to this..
 	if not 'uid' in request.GET.keys():
 		return HttpResponse('uid required')
 	if not 'key' in request.GET.keys():
@@ -59,6 +63,6 @@ def register(request):
 	if not 'users' in keys.keys():
 		keys['users'] = {}
 	
-	keys['users'][uid] = key
+	users[uid] = key
 
-	return HttpResponse('hi')
+	return HttpResponse('registered: ' + str(uid) + ' ' + str(key))
