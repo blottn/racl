@@ -6,4 +6,6 @@ urlpatterns = [
 	url(r'^register/',views.register),
 	url(r'^add/',views.add_k),
 	url(r'^create/',views.create),
+	url(r'^test/',views.test),
+
 ]

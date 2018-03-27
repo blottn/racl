@@ -60,9 +60,9 @@ def register(request):	# might be necessary to add some authentication to this..
 	uid = request.GET['uid']
 	key = request.GET['key']
 	
-	if not 'users' in keys.keys():
-		keys['users'] = {}
-	
 	users[uid] = key
 
 	return HttpResponse('registered: ' + str(uid) + ' ' + str(key))
+
+def test(request):
+	return HttpResponse(str(keys) + ' ' + str(users))
