@@ -16,6 +16,7 @@
     }
   ],
 	"permissions": [
+		"http://*/",
 		"activeTab",
 		"storage"
 	]
