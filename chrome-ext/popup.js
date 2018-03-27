@@ -1,6 +1,18 @@
+const bits = 1024;
+
 function login() {
 	var val = document.getElementById('name').value;
-	chrome.storage.sync.set({'uid_k':val}, login_check);
+	var key = cryptico.generateRSAKey(val,bits);
+	console.log(cryptico.publicKeyString(key));
+	var request = new XMLHttpRequest();
+	request.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {// on confirm only
+			chrome.storage.sync.set({'uid_k':val}, login_check);
+		}
+	}
+	url = 'http://127.0.0.1:8000/key/register?uid=' + val + '&key=' + cryptico.publicKeyString(key);
+	request.open('GET',url,false);
+	request.send(null);
 }
 
 function logout() {
