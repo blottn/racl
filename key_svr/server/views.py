@@ -25,3 +25,24 @@ def register(request):
 	
 	keys[gid] = {'admin':uid, 'u_keys':[]}
 	return HttpResponse('registered ' + str(gid))
+
+def add_k(request):
+	if not 'gid' in request.GET.keys():
+		return HttpResponse('gid required')
+	if not 'uid' in request.GET.keys():
+		return HttpResponse('uid required')
+	if not 'key' in request.GET.keys():
+		return HttpResponse('key required')
+
+	gid = request.GET['gid']
+	uid = request.GET['uid']
+	key = request.GET['key']
+
+	if not gid in keys.keys():
+		return HttpResponse(str(gid) + ' doesn\'t exist yet')
+	if not uid == keys[gid]['admin']:
+		return HttpResponose('You are not authorised to modify this group')
+
+	return HttpResponse('added ' + str(key) + ' to ' + str(gid))
+
+
