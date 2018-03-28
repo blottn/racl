@@ -6,9 +6,9 @@ from django.http import HttpResponse
 
 import sys, os
 
-keys = {}
+keys = {}	# define collections of emails in group
 
-users = {}
+users = {}	# map emails to public keys
 
 E_MSG = 'na'
 
@@ -16,53 +16,52 @@ E_MSG = 'na'
 def create(request):
 	if not 'gid' in request.GET.keys():
 		return HttpResponse('gid required')
-	if not 'uid' in request.GET.keys():
-		return HttpResponse('uid required')
+	if not 'adminid' in request.GET.keys():
+		return HttpResponse('adminid required')
 
 	gid = request.GET['gid']
-	uid = request.GET['uid']
+	aid = request.GET['admin']
 
 	if gid in keys.keys():
 		return HttpResponse(gid + ' already registered')
 	
-	keys[gid] = {'admin':uid, 'u_keys':[]}
+	keys[gid] = {'admin':aid, 'emails':[]}
 	return HttpResponse('registered ' + str(gid))
 
 
 # authorise key to group
-def add_k(request):
+def add_u(request):
 	if not 'gid' in request.GET.keys():
 		return HttpResponse('gid required')
-	if not 'uid' in request.GET.keys():
-		return HttpResponse('uid required')
-	if not 'key' in request.GET.keys():
-		return HttpResponse('key required')
+	if not 'aid' in request.GET.keys():
+		return HttpResponse('aid required')
+	if not 'email' in request.GET.keys():
+		return HttpResponse('email required')
 
 	gid = request.GET['gid']
-	uid = request.GET['uid']
-	key = request.GET['key']
+	aid = request.GET['aid']
+	email = request.GET['email']
 
 	if not gid in keys.keys():
 		return HttpResponse(str(gid) + ' doesn\'t exist yet')
-	if not uid == keys['groups'][gid]['admin']:
+	if not aid == keys['groups'][gid]['admin']:
 		return HttpResponose('You are not authorised to modify this group')
 
-	keys['groups'][gid]['u_keys'] += key
-
+	keys['groups'][gid]['emails'] += email
 	return HttpResponse('added ' + str(key) + ' to ' + str(gid))
 
 def register(request):	# might be necessary to add some authentication to this..
-	if not 'uid' in request.GET.keys():
-		return HttpResponse('uid required')
+	if not 'email' in request.GET.keys():
+		return HttpResponse('email required')
 	if not 'key' in request.GET.keys():
 		return HttpResponse('key required')
 
-	uid = request.GET['uid']
+	email = request.GET['email']
 	key = request.GET['key']
 	
-	users[uid] = key
+	users[email] = key
 
-	return HttpResponse('registered: ' + str(uid) + ' ' + str(key))
+	return HttpResponse('registered: ' + str(email) + ' ' + str(key))
 
 def test(request):
 	return HttpResponse(str(keys) + ' ' + str(users))
