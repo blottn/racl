@@ -20,7 +20,7 @@ def create(request):
 		return HttpResponse('adminid required')
 
 	gid = request.GET['gid']
-	aid = request.GET['admin']
+	aid = request.GET['adminid']
 
 	if gid in keys.keys():
 		return HttpResponse(gid + ' already registered')
@@ -44,11 +44,11 @@ def add_u(request):
 
 	if not gid in keys.keys():
 		return HttpResponse(str(gid) + ' doesn\'t exist yet')
-	if not aid == keys['groups'][gid]['admin']:
+	if not aid == keys[gid]['admin']:
 		return HttpResponose('You are not authorised to modify this group')
 
-	keys['groups'][gid]['emails'] += email
-	return HttpResponse('added ' + str(key) + ' to ' + str(gid))
+	keys[gid]['emails'].append(email)
+	return HttpResponse('added ' + str(email) + ' to ' + str(gid))
 
 def register(request):	# might be necessary to add some authentication to this..
 	if not 'email' in request.GET.keys():
@@ -65,3 +65,6 @@ def register(request):	# might be necessary to add some authentication to this..
 
 def test(request):
 	return HttpResponse(str(keys) + ' ' + str(users))
+
+def index(request):
+	return render(request, 'server/index.html',{})

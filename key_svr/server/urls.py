@@ -7,5 +7,5 @@ urlpatterns = [
 	url(r'^add/',views.add_u),
 	url(r'^create/',views.create),
 	url(r'^test/',views.test),
-
+	url(r'^index/',views.index),
 ]
