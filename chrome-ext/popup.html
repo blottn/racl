@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>Hello</title>
+		<script src="./openpgp/openpgp.min.js"></script>
 		<script src="./cryptico.min.js"></script>
 		<script src="./popup.js"></script>
 	</head>
@@ -9,15 +10,14 @@
 		<div id='login_div'>
 			<form>
 				<p>Login</p>
-				<input id='name' type='text' name='name' placeholder='Name'>
+				<input id='name' type='text' name='name' placeholder='secret'>
 			</form>
 			<br>
 			<button id='login'>Login</button>
 		</div>
 		<div id='status' style='display:none;'>
-			<p id='text'>Logged in as: </p>
+			<p id='text'>Logged in</p>
 			<button id='logout'>Logout</button>
-			<button id='encrypt'>Encrypt</button>
 		</div>
 	</body>
 

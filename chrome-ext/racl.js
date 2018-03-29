@@ -17,16 +17,19 @@ function decrypt(txt,key) {
 }
 
 function init(key) {
-	var uid = console.log(key['uid_k']);
+	var uid = key['uid_k'];
+
 	var dom_list = document.getElementsByTagName("P");
 	var list = []
 	for (var i = 0 ; i < dom_list.length ; i++) {
 		var txt = dom_list[i].innerText;
+	//	console.log(txt);
 		if (txt != "" && txt.length >= tag.length && isEncrypted(txt)) {
-			console.log(getEncrypted(txt));
+	//		console.log(getEncrypted(txt));
 			list.push(getEncrypted(txt));	//cant write further without writing the encryption side first
 		}
 	}
+//	console.log(list);
 }
 
 document.onload = new function() {

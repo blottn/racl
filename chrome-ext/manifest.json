@@ -14,12 +14,29 @@
 	  
       "js": ["cryptico.min.js","racl.js"]
     }
-  ],
+  	],
+	"background": {
+		"scripts":["openpgp/openpgp.min.js","background.js"]
+	},
 	"permissions": [
 		"http://*/",
 		"identity",
 		"identity.email",
 		"activeTab",
 		"storage"
-	]
+	],
+	"commands": {
+		"encrypt": {
+			"description":"encrypt fields",
+			"suggested_key": {
+				"default":"Alt+Shift+E"
+			}
+		},
+		"decrypt": {
+			"description":"decrypt encrypted fields",
+			"suggested_key": {
+				"default":"Alt+Shift+D"
+			}
+		}
+	}
 }
