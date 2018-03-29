@@ -17,7 +17,7 @@ function decrypt(txt,key) {
 }
 
 function init(key) {
-	var uid = key['uid_k'];
+	var uid = key['key'];
 
 	var dom_list = document.getElementsByTagName("P");
 	var list = []
@@ -33,5 +33,5 @@ function init(key) {
 }
 
 document.onload = new function() {
-	chrome.storage.sync.get(['uid_k'],init);
+	chrome.storage.local.get(['key'],init);
 }

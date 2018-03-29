@@ -6,13 +6,13 @@ function encrypt(data) {
 }
 
 function decrypt(data) {
-	if (!('priv_k' in data) || data['priv_k'] == '') {
+	if (!('key' in data) || data['key'] == '') {
 		alert('please login');
 	}
 }
 
 chrome.commands.onCommand.addListener(function(cmd) {
-	chrome.storage.sync.get(['priv_k'],function(result) {
+	chrome.storage.local.get(['key'],function(result) {
 		if (cmd === 'encrypt') {
 			encrypt(result);
 		}

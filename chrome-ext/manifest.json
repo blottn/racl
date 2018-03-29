@@ -20,6 +20,7 @@
 	},
 	"permissions": [
 		"http://*/",
+		"unlimitedStorage",
 		"identity",
 		"identity.email",
 		"activeTab",
