@@ -17,6 +17,8 @@
   ],
 	"permissions": [
 		"http://*/",
+		"identity",
+		"identity.email",
 		"activeTab",
 		"storage"
 	]
