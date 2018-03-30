@@ -1,8 +1,18 @@
 console.log(openpgp);
 openpgp.initWorker({ path:'openpgp/openpgp.worker.js'});	//init openpgp
 
+function run(f) {
+	var options = {
+		currentWindow: true,
+		active: true,	
+	};
+	chrome.tabs.query(options, f);
+}
+
 function encrypt(data) {
-	
+	run(function(tabs) {
+		console.log(tabs);
+	});
 }
 
 function decrypt(data) {
