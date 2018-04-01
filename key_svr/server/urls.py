@@ -8,4 +8,6 @@ urlpatterns = [
 	url(r'^create/',views.create),
 	url(r'^test/',views.test),
 	url(r'^index/',views.index),
+	url(r'^get/',views.get_keys),
+
 ]
