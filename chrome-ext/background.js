@@ -12,6 +12,13 @@ function decrypt(data) {
 	if (!('key' in data) || data['key'] == '') {
 		alert('please login');
 	}
+	else {
+		chrome.identity.getProfileUserInfo(function(id) {
+			chrome.storage.local.set({'email':id.email}, function () {
+				chrome.tabs.executeScript({file:'./decrypt.js'});
+			});
+		});
+	}
 }
 
 chrome.commands.onCommand.addListener(function(cmd) {
@@ -44,6 +51,20 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse) {
 		var data = request.content;
 		run_encryption(data, request.gid).then(function(result) {
 			sendResponse({r:result.data,index:request.index});
+		});
+		return true;
+	}
+	else if ('type' in request && request.type === "decrypt") {
+		chrome.storage.local.get(['key','secret'],function(result) {
+			var key = openpgp.key.readArmored(JSON.parse(result.key).privateKeyArmored).keys[0];
+			key.decrypt(result.secret);
+			var options = {
+				message : openpgp.message.readArmored(request.content),
+				privateKeys: [key]
+			};
+			openpgp.decrypt(options).then(function(decrypted) {
+				sendResponse({data:decrypted.data,index:request.index});
+			});
 		});
 		return true;
 	}
