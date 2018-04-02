@@ -28,10 +28,10 @@ chrome.storage.local.get(['email'],function(res) {
 		chrome.runtime.sendMessage({type:'encrypt',content:data.data, gid:data.gid, index:i},function (response) {
 			var pos = response.index;
 			if (elements[pos].nodeType == Node.TEXT_NODE) {
-				elements[pos].nodeValue = 'decrypt' + JSON.stringify(response.r);
+				elements[pos].nodeValue = 'decrypt{"data":' + JSON.stringify(response.r) + '}';
 			}
 			if (elements[pos].nodeType == Node.ELEMENT_NODE){
-				elements[pos].value = 'decrypt' + JSON.stringify(response.r);
+				elements[pos].value = 'decrypt{"data":' + JSON.stringify(response.r) + '}';
 			}
 		});
 	}
