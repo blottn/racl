@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_protect
 
-import sys, os, json
+import sys, os, json, urllib
 
 keys = {}	# define collections of emails in group
 
@@ -55,12 +56,9 @@ def register(request):	# might be necessary to add some authentication to this..
 		return HttpResponse('email required')
 	if not 'key' in request.GET.keys():
 		return HttpResponse('key required')
-
 	email = request.GET['email']
 	key = request.GET['key']
-	
-	users[email] = key
-
+	users[email] = urllib.unquote(key).decode('utf8')
 	return HttpResponse('registered: ' + str(email) + ' ' + str(key))
 
 def get_keys(request):
@@ -73,7 +71,7 @@ def get_keys(request):
 	for u in keys[gid]['emails']:
 		if u in users.keys():
 			key_list.append(users[u])
-	return HttpResponse(str(json.dumps(key_list)))
+	return HttpResponse(json.dumps(key_list), content_type='text/plain')
 
 
 def test(request):

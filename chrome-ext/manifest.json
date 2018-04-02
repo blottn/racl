@@ -8,13 +8,6 @@
 		"default_title":"Racl",
 		"default_popup":"popup.html"
 	},
-	"content_scripts": [
-    {
-      "matches": ["https://www.reddit.com/r/tcdcrypto/*/"],
-	  
-      "js": ["cryptico.min.js","racl.js"]
-    }
-  	],
 	"background": {
 		"scripts":["openpgp/openpgp.min.js","background.js"]
 	},
@@ -24,6 +17,7 @@
 		"identity",
 		"identity.email",
 		"activeTab",
+		"tabs",
 		"storage"
 	],
 	"commands": {
