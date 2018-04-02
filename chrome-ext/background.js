@@ -26,46 +26,25 @@ chrome.commands.onCommand.addListener(function(cmd) {
 });
 
 
-function run_encryption(data,gid) {
+function run_encryption(d,gid) {
 	var req = new XMLHttpRequest();
-	req.onreadystatechange = async function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var key_list = JSON.parse(this.responseText);
-			key_list[0] = openpgp.key.readArmored(key_list[0]).keys[0];
-			var options = {
-				data : request.content,
-				publicKeys : key_list
-			}
-			var encrypted = await openpgp.encrypt(options);
-			return {"data":encrypted.data};
-		}
-	};
 	req.open('GET','http://127.0.0.1:8000/key/get/?gid=' + gid, false);
 	req.send(null);
-
+	var key_list = JSON.parse(req.responseText);
+	key_list[0] = openpgp.key.readArmored(key_list[0]).keys[0];
+	var options = {
+		data : d,
+		publicKeys : key_list
+	}
+	return openpgp.encrypt(options);
 }
 
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse) {
 	var data = request.content;
 	if (request.type === "encrypt") {
-	/*	var req = new XMLHttpRequest();
-		req.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				var key_list = JSON.parse(this.responseText);
-				key_list[0] = openpgp.key.readArmored(key_list[0]).keys[0];
-				var options = {
-					data : request.content,
-					publicKeys : key_list
-				}
-				var encrypted = await openpgp.encrypt(options);
-				console.log('encrypted..');
-				console.log(encrypted);
-				sendResponse({"data":encrypted.data});
-			}
-		};
-		req.open('GET','http://127.0.0.1:8000/key/get/?gid=' + request.gid, false);
-		req.send(null);*/
-		var result = run_encryption(data, request.gid);
-		sendResponse({r:result});
+		run_encryption(data, request.gid).then(function(result) {
+			console.log(result);
+			sendResponse({"r":JSON.stringify(result)});
+		});
 	}
 });
