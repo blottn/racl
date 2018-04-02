@@ -61,6 +61,26 @@ def register(request):	# might be necessary to add some authentication to this..
 	users[email] = urllib.unquote(key).decode('utf8')
 	return HttpResponse('registered: ' + str(email) + ' ' + str(key))
 
+def remove(request):
+	if not 'email' in request.GET.keys():
+		return HttpResponse('email required')
+	if not 'admin' in request.GET.keys():
+		return HttpResponse('admin id required')
+	if not 'gid' in request.GET.keys():
+		return HttpResonse('gid required')
+	gid = request.GET['gid']
+	adminid = request.GET['admin']
+	email = request.GET['email']
+	if not gid in keys.keys():
+		return "gid " + " doesn't exist"
+	if not adminid == keys[gid]['admin']:
+		return HttpResponse("not authorised")
+	if not email in keys[gid]['emails']:
+		return HttpResponse("that email doesn't exist")
+	
+	keys[gid]['emails'].remove(email)
+	return HttpResponse("removed")
+
 def get_keys(request):
 	if not 'gid' in request.GET.keys():
 		return HttpResponse('gid required')

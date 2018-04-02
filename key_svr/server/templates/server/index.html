@@ -3,13 +3,6 @@
 		<title>Registration</title>
 	</head>
 	<body>
-		<p>Register key</p>
-		<form action="/key/register" method="get">
-			<input type="email" name="email" placeholder="email"><br>
-			<input type="text" name="key" placeholder="key"><br>
-			<input type="submit" value="Register">
-		</form>
-
 		<p>Create group:</p>
 		<form action="/key/create" method="get">
 			<input type="text" name="gid" placeholder="gid"><br>
@@ -23,6 +16,14 @@
 			<input type="text" name="aid" placeholder="admin email"><br>
 			<input type="email" name="email" placeholder="email"><br>
 			<input type="submit" value="Add">
+		</form>
+
+		<p>Remove user from group:</p>
+		<form action="/key/remove" method="get">
+			<input type="text" name="gid" placeholder="gid"><br>
+			<input type="text" name="admin" placeholder="admin email"><br>
+			<input type="email" name="email" placeholder="email"><br>
+			<input type="submit" value="Remove">
 		</form>
 
 	</body>
