@@ -1,5 +1,4 @@
 function dfs(root) {
-	// console.log(root.nodeType);
 	if ((root.nodeType == Node.TEXT_NODE && /.*encrypt.*/.exec(root.nodeValue)) || (root.nodeType == Node.ELEMENT_NODE && /.*encrypt.*/.exec(root.value))) {
 		return [root];
 	}
@@ -12,8 +11,6 @@ function dfs(root) {
 }
 
 chrome.storage.local.get(['email'],function(res) {
-	console.log(res.email);
-
 	elements = dfs(document.body);	// get elements to be encrypted
 	for (var i = 0 ; i < elements.length ; i++) {
 		// encrypt!
@@ -27,13 +24,14 @@ chrome.storage.local.get(['email'],function(res) {
 		}
 		txt = txt.substring('encrypt'.length,txt.length);
 		var data = JSON.parse(txt);
-		chrome.runtime.sendMessage({type:'encrypt',content:data.data, gid:data.gid},function (response) {
-			console.log(response);
-			if (element.nodeType == Node.TEXT_NODE) {
-				element.nodeValue = 'decrypt' + JSON.stringify(response);
+
+		chrome.runtime.sendMessage({type:'encrypt',content:data.data, gid:data.gid, index:i},function (response) {
+			var pos = response.index;
+			if (elements[pos].nodeType == Node.TEXT_NODE) {
+				elements[pos].nodeValue = 'decrypt' + JSON.stringify(response.r);
 			}
-			else {
-				element.value = 'decrypt' + JSON.stringify(response);
+			if (elements[pos].nodeType == Node.ELEMENT_NODE){
+				elements[pos].value = 'decrypt' + JSON.stringify(response.r);
 			}
 		});
 	}

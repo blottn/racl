@@ -40,11 +40,11 @@ function run_encryption(d,gid) {
 }
 
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse) {
-	var data = request.content;
-	if (request.type === "encrypt") {
+	if ('type' in request && request.type === "encrypt") {
+		var data = request.content;
 		run_encryption(data, request.gid).then(function(result) {
-			console.log(result);
-			sendResponse({"r":JSON.stringify(result)});
+			sendResponse({r:result.data,index:request.index});
 		});
+		return true;
 	}
 });
